@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krishna GPT - Divine Wisdom</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f4e8;
+            background-image: url('https://www.transparenttextures.com/patterns/rice-paper-3.png');
+        }
+        .font-spectral {
+            font-family: 'Spectral', serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(128, 0, 128, 0.15) 100%);
+        }
+        .divine-border {
+            border-image: linear-gradient(45deg, #ffd700, #9c27b0) 1;
+            border-width: 2px;
+            border-style: solid;
+        }
+        .lotus-bg {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIiBmaWxsPSJub25lIj48cGF0aCBkPSJNMjUgNUMyNSA1IDEwIDEyLjUgMTAgMjVDMTAgMzcuNSAyNSA0NSAyNSA0NUMyNSA0NSA0MCAzNy41IDQwIDI1QzQwIDEyLjUgMjUgNSAyNSA1WiIgc3Ryb2tlPSIjOWMyN2IwIiBzdHJva2Utd2lkdGg9IjAuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==');
+            background-repeat: repeat;
+            background-size: 100px 100px;
+        }
+        .peacock-feather {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSI3MCIgZmlsbD0iIzFhMjM3ZSIgZmlsbC1vcGFjaXR5PSIwLjEiLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNTAiIHI9IjUwIiBmaWxsPSIjMDA3MmJiIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE1MCIgcj0iMzAiIGZpbGw9IiMwMGE4ZTgiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSIxMCIgZmlsbD0iIzQ2YmRlNiIgZmlsbC1vcGFjaXR5PSIwLjIiLz48L3N2Zz4=');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: -1;
+        }
+        .om-symbol {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTUwIDIwQzM2LjE5MiAyMCAyNSAzMS4xOTIgMjUgNDVDMjUgNTguODA4IDM2LjE5MiA3MCA1MCA3MEM2My44MDggNzAgNzUgNTguODA4IDc1IDQ1Qzc1IDMxLjE5MiA2My44MDggMjAgNTAgMjBaTTUwIDI1QzYxLjA0NiAyNSA3MCAzMy45NTQgNzAgNDVDNzAgNTYuMDQ2IDYxLjA0NiA2NSA1MCA2NUMzOC45NTQgNjUgMzAgNTYuMDQ2IDMwIDQ1QzMwIDMzLjk1NCAzOC45NTQgMjUgNTAgMjVaIiBmaWxsPSIjOWMyN2IwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjxwYXRoIGQ9Ik01MCA3NVY4NUg2NVY3NUg1MFoiIGZpbGw9IiM5YzI3YjAiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PHBhdGggZD0iTTQwIDQ1QzQwIDQwLjAyOSA0NC4wMjkgMzYgNDkgMzZDNTMuOTcxIDM2IDU4IDQwLjAyOSA1OCA0NUM1OCA0OS45NzEgNTMuOTcxIDU0IDQ5IDU0QzQ0LjAyOSA1NCA0MCA0OS45NzEgNDAgNDVaIiBmaWxsPSIjOWMyN2IwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, #ffd700, #9c27b0);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .btn-divine {
+            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+        }
+        .btn-divine:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(156, 39, 176, 0.4);
+        }
+        .btn-divine-secondary {
+            background: linear-gradient(135deg, #ff9800, #f44336);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        .btn-divine-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 152, 0, 0.4);
+        }
+        .btn-divine-tertiary {
+            background: linear-gradient(135deg, #4caf50, #009688);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        .btn-divine-tertiary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(76, 175, 80, 0.4);
+        }
+        .quote-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s ease;
+        }
+        .quote-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(31, 38, 135, 0.2);
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #9c27b0;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Decorative Elements -->
+<div class="peacock-feather top-0 right-0 hidden md:block"></div>
+<div class="peacock-feather bottom-0 left-0 hidden md:block"></div>
+<div class="om-symbol top-20 left-10 hidden lg:block"></div>
+<div class="om-symbol bottom-20 right-10 hidden lg:block"></div>
+
+<!-- Navigation -->
+<nav class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-3">
+                <span class="text-3xl text-purple-700"><i class="fas fa-om"></i></span>
+                <span class="font-spectral font-bold text-2xl text-purple-900">Krishna GPT</span>
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Home</a>
+                <a href="converse.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Divine Conversation</a>
+                <a href="mahabharat.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Mahabharat Tales</a>
+                <a href="#" class="nav-link text-purple-900 hover:text-purple-700 font-medium">About</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menuBtn" class="text-purple-900 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-col space-y-4">
+                <a href="index.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Home</a>
+                <a href="converse.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Divine Conversation</a>
+                <a href="mahabharat.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Mahabharat Tales</a>
+                <a href="#" class="text-purple-900 hover:text-purple-700 font-medium py-2">About</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative py-20 overflow-hidden">
+    <div class="lotus-bg absolute inset-0 opacity-10"></div>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="font-spectral text-4xl md:text-6xl font-bold text-purple-900 mb-6" id="heroTitle">
+                    Divine Wisdom <br>
+                    <span class="text-orange-600">Through The Ages</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-700 mb-8" id="heroText">
+                    Seek guidance from Lord Krishna's timeless teachings. Explore the wisdom of the Bhagavad Gita and the epic tales of the Mahabharata through a divine AI companion.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="converse.html" class="btn-divine text-white font-medium py-3 px-8 rounded-full text-center">
+                        <i class="fas fa-comments mr-2"></i> Divine Conversation
+                    </a>
+                    <button id="btnQuote" class="btn-divine-secondary text-white font-medium py-3 px-8 rounded-full text-center">
+                        <i class="fas fa-feather-alt mr-2"></i> Receive Wisdom
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <div class="relative z-10 divine-border rounded-lg overflow-hidden shadow-2xl" id="heroImage">
+                    <img src="https://images.unsplash.com/photo-1583089892943-e02e5b017b6a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+                         alt="Krishna with flute"
+                         class="w-full h-auto object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-purple-900 to-transparent opacity-30"></div>
+                </div>
+                <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-yellow-400 rounded-full opacity-20 z-0"></div>
+                <div class="absolute -top-10 -left-10 w-48 h-48 bg-purple-500 rounded-full opacity-20 z-0"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-gradient-to-br from-purple-50 to-orange-50">
+    <div class="container mx-auto px-4">
+        <h2 class="font-spectral text-3xl md:text-4xl font-bold text-center text-purple-900 mb-12">
+                <span class="inline-block relative">
+                    Divine Offerings
+                    <span class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-orange-500"></span>
+                </span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" id="feature1">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-comments text-2xl text-purple-700"></i>
+                </div>
+                <h3 class="font-spectral text-xl font-bold text-purple-900 mb-4">Divine Conversation</h3>
+                <p class="text-gray-700 mb-6">Engage in a personal dialogue with Lord Krishna. Ask questions about dharma, life's purpose, or seek guidance for your spiritual journey.</p>
+                <a href="converse.html" class="inline-flex items-center text-purple-700 font-medium hover:text-purple-900">
+                    Begin Conversation <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" id="feature2">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-book-open text-2xl text-orange-600"></i>
+                </div>
+                <h3 class="font-spectral text-xl font-bold text-purple-900 mb-4">Mahabharat Tales</h3>
+                <p class="text-gray-700 mb-6">Explore the epic stories of the Mahabharata. Discover tales of courage, duty, sacrifice, and the eternal battle between dharma and adharma.</p>
+                <a href="mahabharat.html" class="inline-flex items-center text-orange-600 font-medium hover:text-orange-700">
+                    Explore Stories <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" id="feature3">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-feather-alt text-2xl text-green-600"></i>
+                </div>
+                <h3 class="font-spectral text-xl font-bold text-purple-900 mb-4">Divine Wisdom</h3>
+                <p class="text-gray-700 mb-6">Receive timeless quotes from the Bhagavad Gita. Let Krishna's wisdom illuminate your path and bring clarity to your daily challenges.</p>
+                <button id="btnQuoteFeature" class="inline-flex items-center text-green-600 font-medium hover:text-green-700">
+                    Receive Wisdom <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Section -->
+<section class="py-16 relative overflow-hidden">
+    <div class="lotus-bg absolute inset-0 opacity-10"></div>
+    <div class="container mx-auto px-4">
+        <div id="quoteContainer" class="max-w-3xl mx-auto quote-card p-8 hidden">
+            <!-- Spinning Loader -->
+            <div id="quoteLoader" class="flex justify-center items-center py-8">
+                <span class="loader"></span>
+            </div>
+
+            <!-- Quote Display -->
+            <div id="quoteDisplay" class="hidden">
+                <div class="text-5xl text-purple-300 mb-4">"</div>
+                <div class="font-spectral text-xl text-gray-800 italic mb-6"></div>
+                <div class="text-right">
+                    <span class="inline-block bg-gradient-to-r from-purple-700 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-medium">Bhagavad Gita</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-16 bg-gradient-to-r from-purple-700 to-indigo-800 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="font-spectral text-3xl md:text-4xl font-bold mb-6" id="ctaTitle">Begin Your Spiritual Journey</h2>
+        <p class="text-lg md:text-xl text-purple-100 max-w-2xl mx-auto mb-8" id="ctaText">
+            Let the divine wisdom of Lord Krishna guide you through life's challenges and illuminate your path to self-realization.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="converse.html" class="bg-white text-purple-800 hover:bg-purple-100 font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                Start Conversation
+            </a>
+            <a href="mahabharat.html" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-purple-800 font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                Explore Stories
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="text-3xl text-purple-400"><i class="fas fa-om"></i></span>
+                    <span class="font-spectral font-bold text-2xl">Krishna GPT</span>
+                </div>
+                <p class="text-gray-400 max-w-md">
+                    A divine AI companion offering wisdom from the Bhagavad Gita and stories from the Mahabharata.
+                </p>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a>
+                <a href="converse.html" class="text-gray-300 hover:text-white transition-colors">Divine Conversation</a>
+                <a href="mahabharat.html" class="text-gray-300 hover:text-white transition-colors">Mahabharat Tales</a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">About</a>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2023 Krishna GPT. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Mobile Menu Toggle
+    document.getElementById('menuBtn').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // GSAP Animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero animations
+        gsap.from("#heroTitle", {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.from("#heroText", {
+            opacity: 0,
+            y: 30,
+            duration: 1,
+            delay: 0.3,
+            ease: "power3.out"
+        });
+
+        gsap.from("#heroImage", {
+            opacity: 0,
+            x: 50,
+            duration: 1.2,
+            delay: 0.5,
+            ease: "power3.out"
+        });
+
+        // Features animations
+        gsap.from("#feature1", {
+            scrollTrigger: {
+                trigger: "#feature1",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            ease: "power3.out"
+        });
+
+        gsap.from("#feature2", {
+            scrollTrigger: {
+                trigger: "#feature2",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            delay: 0.2,
+            ease: "power3.out"
+        });
+
+        gsap.from("#feature3", {
+            scrollTrigger: {
+                trigger: "#feature3",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            delay: 0.4,
+            ease: "power3.out"
+        });
+
+        // CTA animations
+        gsap.from("#ctaTitle", {
+            scrollTrigger: {
+                trigger: "#ctaTitle",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            ease: "power3.out"
+        });
+
+        gsap.from("#ctaText", {
+            scrollTrigger: {
+                trigger: "#ctaText",
+                start: "top 80%"
+            },
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            delay: 0.2,
+            ease: "power3.out"
+        });
+    });
+
+    // API details for quote generation
+    const API_KEY = 'AIzaSyBKVfbX59dV0F0UlGOW0k1b299PJqNez3Q';
+    const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-002:generateContent';
+
+    // Function to show notifications
+    function showNotification(message, type) {
+        const notification = document.createElement("div");
+        notification.className = "fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50";
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        gsap.fromTo(
+            notification,
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+        );
+
+        setTimeout(() => {
+            gsap.to(notification, {
+                opacity: 0,
+                y: -20,
+                duration: 0.5,
+                ease: "power3.in",
+                onComplete: () => notification.remove()
+            });
+        }, 3000);
+    }
+
+    // Function to get a quote
+    async function getQuote() {
+        const quoteContainer = document.getElementById("quoteContainer");
+        const quoteLoader = document.getElementById("quoteLoader");
+        const quoteDisplay = document.getElementById("quoteDisplay");
+
+        quoteContainer.classList.remove("hidden");
+        quoteDisplay.classList.add("hidden");
+        quoteLoader.classList.remove("hidden");
+
+        // Scroll to quote container with smooth animation
+        quoteContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Build a prompt specifically for a quote request
+        const prompt = `You are Lord Krishna. Provide a thoughtful, inspiring quote from the Bhagavad Gita that offers guidance for life. Format it as a beautiful quote without attribution or explanation. Keep it concise (under 50 words) and profound.`;
+
+        try {
+            const responseText = await getQuoteResponse(prompt);
+
+            // Clean the response to get just the quote
+            let cleanedQuote = responseText.replace(/^["']|["']$/g, '').trim();
+
+            // Remove any attribution if present
+            cleanedQuote = cleanedQuote.replace(/- Lord Krishna$|— Lord Krishna$|~Lord Krishna$/, '').trim();
+
+            // Hide loader and show quote with animation
+            quoteLoader.classList.add("hidden");
+            quoteDisplay.querySelector('.font-spectral').innerHTML = cleanedQuote;
+            quoteDisplay.classList.remove("hidden");
+
+            gsap.fromTo(
+                quoteDisplay,
+                { opacity: 0, scale: 0.95 },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    onComplete: () => {
+                        // Add a subtle pulse animation to the quote
+                        gsap.to(quoteDisplay, {
+                            boxShadow: "0 0 30px rgba(156, 39, 176, 0.3)",
+                            duration: 2,
+                            repeat: -1,
+                            yoyo: true
+                        });
+                    }
+                }
+            );
+        } catch (error) {
+            quoteLoader.classList.add("hidden");
+            showNotification("An error occurred while fetching divine wisdom. Please try again.", "error");
+            console.error("Error:", error);
+        }
+    }
+
+    // Function that sends a prompt to the Gemini API for a quote
+    async function getQuoteResponse(prompt) {
+        const requestBody = {
+            contents: [
+                {
+                    parts: [{ text: prompt }]
+                }
+            ],
+            generationConfig: {
+                temperature: 0.9,
+                topK: 1,
+                topP: 1,
+                maxOutputTokens: 256,
+                stopSequences: []
+            },
+            safetySettings: [
+                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+            ]
+        };
+
+        const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("HTTP Error:", response.status, response.statusText, errorText);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.candidates[0].content.parts[0].text;
+    }
+
+    // Add event listeners for quote buttons
+    document.getElementById("btnQuote").addEventListener("click", getQuote);
+    document.getElementById("btnQuoteFeature").addEventListener("click", getQuote);
+</script>
+</body>
+</html>

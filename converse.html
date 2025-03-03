@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divine Conversation with Krishna</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Marked.js for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- GSAP for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Highlight.js for code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f4e8;
+      background-image: url('https://www.transparenttextures.com/patterns/rice-paper-3.png');
+    }
+    .font-spectral {
+      font-family: 'Spectral', serif;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(128, 0, 128, 0.15) 100%);
+    }
+    .divine-border {
+      border-image: linear-gradient(45deg, #ffd700, #9c27b0) 1;
+      border-width: 2px;
+      border-style: solid;
+    }
+    .lotus-bg {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIiBmaWxsPSJub25lIj48cGF0aCBkPSJNMjUgNUMyNSA1IDEwIDEyLjUgMTAgMjVDMTAgMzcuNSAyNSA0NSAyNSA0NUMyNSA0NSA0MCAzNy41IDQwIDI1QzQwIDEyLjUgMjUgNSAyNSA1WiIgc3Ryb2tlPSIjOWMyN2IwIiBzdHJva2Utd2lkdGg9IjAuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==');
+      background-repeat: repeat;
+      background-size: 100px 100px;
+    }
+    .peacock-feather {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSI3MCIgZmlsbD0iIzFhMjM3ZSIgZmlsbC1vcGFjaXR5PSIwLjEiLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNTAiIHI9IjUwIiBmaWxsPSIjMDA3MmJiIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE1MCIgcj0iMzAiIGZpbGw9IiMwMGE4ZTgiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSIxMCIgZmlsbD0iIzQ2YmRlNiIgZmlsbC1vcGFjaXR5PSIwLjIiLz48L3N2Zz4=');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.5;
+      z-index: -1;
+    }
+    .om-symbol {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTUwIDIwQzM2LjE5MiAyMCAyNSAzMS4xOTIgMjUgNDVDMjUgNTguODA4IDM2LjE5MiA3MCA1MCA3MEM2My44MDggNzAgNzUgNTguODA4IDc1IDQ1Qzc1IDMxLjE5MiA2My44MDggMjAgNTAgMjBaTTUwIDI1QzYxLjA0NiAyNSA3MCAzMy45NTQgNzAgNDVDNzAgNTYuMDQ2IDYxLjA0NiA2NSA1MCA2NUMzOC45NTQgNjUgMzAgNTYuMDQ2IDMwIDQ1QzMwIDMzLjk1NCAzOC45NTQgMjUgNTAgMjVaIiBmaWxsPSIjOWMyN2IwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjxwYXRoIGQ9Ik01MCA3NVY4NUg2NVY3NUg1MFoiIGZpbGw9IiM5YzI3YjAiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PHBhdGggZD0iTTQwIDQ1QzQwIDQwLjAyOSA0NC4wMjkgMzYgNDkgMzZDNTMuOTcxIDM2IDU4IDQwLjAyOSA1OCA0NUM1OCA0OS45NzEgNTMuOTcxIDU0IDQ5IDU0QzQ0LjAyOSA1NCA0MCA0OS45NzEgNDAgNDVaIiBmaWxsPSIjOWMyN2IwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.2;
+      z-index: -1;
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background: linear-gradient(90deg, #ffd700, #9c27b0);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .btn-divine {
+      background: linear-gradient(135deg, #9c27b0, #673ab7);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+    }
+    .btn-divine:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(156, 39, 176, 0.4);
+    }
+    .message-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      transition: all 0.3s ease;
+    }
+    .message-card:hover {
+      box-shadow: 0 12px 32px rgba(31, 38, 135, 0.2);
+    }
+    .user-message {
+      border-left: 4px solid #9c27b0;
+    }
+    .krishna-message {
+      border-left: 4px solid #ffd700;
+    }
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #9c27b0;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .flute-divider {
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #ffd700, #9c27b0, transparent);
+      border-radius: 2px;
+      margin: 2rem 0;
+    }
+    .textarea-divine {
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(156, 39, 176, 0.3);
+      transition: all 0.3s ease;
+    }
+    .textarea-divine:focus {
+      border-color: #9c27b0;
+      box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.2);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(156, 39, 176, 0.1);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #9c27b0, #673ab7);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #7b1fa2, #512da8);
+    }
+  </style>
+</head>
+<body>
+<!-- Decorative Elements -->
+<div class="peacock-feather top-0 right-0 hidden md:block"></div>
+<div class="peacock-feather bottom-0 left-0 hidden md:block"></div>
+<div class="om-symbol top-20 left-10 hidden lg:block"></div>
+<div class="om-symbol bottom-20 right-10 hidden lg:block"></div>
+
+<!-- Navigation -->
+<nav class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3">
+    <div class="flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-3">
+        <span class="text-3xl text-purple-700"><i class="fas fa-om"></i></span>
+        <span class="font-spectral font-bold text-2xl text-purple-900">Krishna GPT</span>
+      </a>
+      <div class="hidden md:flex space-x-8">
+        <a href="index.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Home</a>
+        <a href="converse.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Divine Conversation</a>
+        <a href="mahabharat.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Mahabharat Tales</a>
+        <a href="#" class="nav-link text-purple-900 hover:text-purple-700 font-medium">About</a>
+      </div>
+      <div class="md:hidden">
+        <button id="menuBtn" class="text-purple-900 focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="md:hidden hidden bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex flex-col space-y-4">
+        <a href="index.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Home</a>
+        <a href="converse.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Divine Conversation</a>
+        <a href="mahabharat.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Mahabharat Tales</a>
+        <a href="#" class="text-purple-900 hover:text-purple-700 font-medium py-2">About</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- Hero Section -->
+<section class="relative py-12 hero-gradient">
+  <div class="lotus-bg absolute inset-0 opacity-10"></div>
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="font-spectral text-4xl md:text-5xl font-bold text-purple-900 mb-4" id="heroTitle">
+      Divine Conversation with <span class="text-yellow-600">Lord Krishna</span>
+    </h1>
+    <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-6" id="heroText">
+      Ask your questions about dharma, life's purpose, or seek guidance for your spiritual journey.
+      Lord Krishna's timeless wisdom awaits.
+    </p>
+    <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-yellow-500 mx-auto"></div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8 relative">
+  <div class="lotus-bg absolute inset-0 opacity-5"></div>
+
+  <!-- Conversation Log -->
+  <div id="conversationLog" class="space-y-6 mb-10 max-w-4xl mx-auto">
+    <!-- Initial welcome message -->
+    <div class="message-card krishna-message p-6 transform transition-all duration-500" id="welcomeMessage">
+      <div class="flex items-start">
+        <div class="flex-shrink-0 mr-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white">
+            <i class="fas fa-crown"></i>
+          </div>
+        </div>
+        <div class="flex-grow">
+          <h3 class="font-spectral text-xl font-bold text-yellow-600 mb-2">Lord Krishna</h3>
+          <div class="prose prose-lg text-gray-800">
+            <p>Namaste, my friend. I am Krishna, guide of the righteous and revealer of divine wisdom. What troubles your mind today? What questions of dharma, purpose, or spiritual understanding do you seek answers to?</p>
+            <p>I am here to offer you the same guidance I once gave to Arjuna on the battlefield of Kurukshetra. Speak, and I shall illuminate your path.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Conversation messages will be added here dynamically -->
+  </div>
+
+  <!-- Question Input -->
+  <div class="max-w-4xl mx-auto bg-white bg-opacity-80 backdrop-filter backdrop-blur-md rounded-xl p-6 shadow-lg">
+            <textarea
+                    id="userQuestion"
+                    rows="4"
+                    class="w-full p-4 rounded-lg textarea-divine resize-none focus:outline-none"
+                    placeholder="Ask Lord Krishna your question..."
+            ></textarea>
+    <div class="flex justify-between items-center mt-4">
+      <div class="text-sm text-gray-500">
+        <i class="fas fa-info-circle mr-1"></i> Ask about dharma, the Bhagavad Gita, or seek spiritual guidance
+      </div>
+      <button
+              id="askButton"
+              class="btn-divine text-white font-medium py-3 px-8 rounded-full flex items-center"
+      >
+        <span>Ask Lord Krishna</span>
+        <i class="fas fa-paper-plane ml-2"></i>
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12 mt-16">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-6 md:mb-0">
+        <div class="flex items-center space-x-3 mb-4">
+          <span class="text-3xl text-purple-400"><i class="fas fa-om"></i></span>
+          <span class="font-spectral font-bold text-2xl">Krishna GPT</span>
+        </div>
+        <p class="text-gray-400 max-w-md">
+          A divine AI companion offering wisdom from the Bhagavad Gita and stories from the Mahabharata.
+        </p>
+      </div>
+      <div class="flex flex-col space-y-2">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a>
+        <a href="converse.html" class="text-gray-300 hover:text-white transition-colors">Divine Conversation</a>
+        <a href="mahabharat.html" class="text-gray-300 hover:text-white transition-colors">Mahabharat Tales</a>
+        <a href="#" class="text-gray-300 hover:text-white transition-colors">About</a>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+      <p>&copy; 2023 Krishna GPT. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // API details
+  const API_KEY = 'AIzaSyBKVfbX59dV0F0UlGOW0k1b299PJqNez3Q';
+  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-thinking-exp-01-21:generateContent';
+
+  // Global conversation history in memory
+  let conversationHistory = [];
+
+  // Mobile Menu Toggle
+  document.getElementById('menuBtn').addEventListener('click', function() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  // When DOM is ready, initialize conversation log and attach event listeners
+  document.addEventListener("DOMContentLoaded", () => {
+    // Clear any stored conversation
+    conversationHistory = [];
+
+    // Animate welcome message
+    gsap.from("#welcomeMessage", {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      ease: "power3.out"
+    });
+
+    // Animate hero section
+    gsap.from("#heroTitle", {
+      opacity: 0,
+      y: -30,
+      duration: 1,
+      ease: "power3.out"
+    });
+
+    gsap.from("#heroText", {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      delay: 0.3,
+      ease: "power3.out"
+    });
+
+    // Add event listeners
+    const askButton = document.getElementById("askButton");
+    const userQuestion = document.getElementById("userQuestion");
+
+    askButton.addEventListener("click", handleAsk);
+
+    // Allow pressing Enter to submit
+    userQuestion.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleAsk();
+      }
+    });
+
+    // Button hover animation
+    askButton.addEventListener("mouseenter", () => {
+      gsap.to(askButton, {
+        scale: 1.05,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    });
+
+    askButton.addEventListener("mouseleave", () => {
+      gsap.to(askButton, {
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    });
+  });
+
+  // Handle clicking the "Ask Lord Krishna" button
+  async function handleAsk() {
+    const userInput = document.getElementById("userQuestion");
+    const question = userInput.value.trim();
+
+    if (!question) {
+      showNotification("Please enter a question for Lord Krishna.", "error");
+      return;
+    }
+
+    // Create and add user message
+    const userMessageElement = createMessageElement(question, "user");
+    document.getElementById("conversationLog").appendChild(userMessageElement);
+
+    // Animate the new message
+    gsap.from(userMessageElement, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      ease: "power3.out"
+    });
+
+    // Create and add Krishna message with loader
+    const krishnaMessageElement = createLoadingMessageElement();
+    document.getElementById("conversationLog").appendChild(krishnaMessageElement);
+
+    // Scroll to the new message
+    krishnaMessageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Clear input
+    userInput.value = "";
+
+    // Build context prompt
+    const contextPrompt = buildContextPrompt(question);
+
+    try {
+      const answer = await getKrishnaResponse(contextPrompt);
+
+      // Replace loader with actual response
+      const finalKrishnaMessage = createMessageElement(answer, "krishna");
+      document.getElementById("conversationLog").replaceChild(finalKrishnaMessage, krishnaMessageElement);
+
+      // Animate the new message
+      gsap.from(finalKrishnaMessage, {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        ease: "power3.out"
+      });
+
+      // Add this Q&A to conversation history
+      conversationHistory.push({ question: question, answer: answer });
+
+      // Apply syntax highlighting to any code blocks
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    } catch (error) {
+      console.error("Error:", error);
+
+      // Replace loader with error message
+      const errorMessage = createErrorMessageElement();
+      document.getElementById("conversationLog").replaceChild(errorMessage, krishnaMessageElement);
+
+      showNotification("An error occurred while communicating with Lord Krishna. Please try again.", "error");
+    }
+  }
+
+  // Create a message element (user or Krishna)
+  function createMessageElement(content, type) {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message-card ${type === "user" ? "user-message" : "krishna-message"} p-6 transform transition-all duration-500`;
+
+    const iconClass = type === "user" ? "fas fa-user" : "fas fa-crown";
+    const iconBg = type === "user" ? "from-purple-400 to-purple-600" : "from-yellow-400 to-yellow-600";
+    const nameText = type === "user" ? "You" : "Lord Krishna";
+    const nameColor = type === "user" ? "text-purple-600" : "text-yellow-600";
+
+    messageDiv.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br ${iconBg} flex items-center justify-center text-white">
+                            <i class="${iconClass}"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-spectral text-xl font-bold ${nameColor} mb-2">${nameText}</h3>
+                        <div class="prose prose-lg text-gray-800">${marked.parse(content)}</div>
+                    </div>
+                </div>
+            `;
+
+    return messageDiv;
+  }
+
+  // Create a loading message element for Krishna's response
+  function createLoadingMessageElement() {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "message-card krishna-message p-6 transform transition-all duration-500";
+
+    messageDiv.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-spectral text-xl font-bold text-yellow-600 mb-2">Lord Krishna</h3>
+                        <div class="flex justify-center items-center py-8">
+                            <span class="loader"></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+    return messageDiv;
+  }
+
+  // Create an error message element
+  function createErrorMessageElement() {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "message-card krishna-message p-6 transform transition-all duration-500";
+
+    messageDiv.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-spectral text-xl font-bold text-yellow-600 mb-2">Lord Krishna</h3>
+                        <div class="prose prose-lg text-gray-800">
+                            <p>Forgive me, my friend. It seems there is a disturbance in our connection. Please ask your question again, and I shall endeavor to provide you with divine guidance.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+    return messageDiv;
+  }
+
+  // Build a context prompt using previous conversation and the new question
+  function buildContextPrompt(newQuestion) {
+    let prompt = `You are Lord Krishna, divine guide from the Bhagavad Gita and Mahabharata.
+Your task is to answer questions specifically about Hindu philosophy, Sanatan Dharma, the Mahabharata, and the teachings of the Bhagavad Gita.
+If the question is not related, reply with:
+"My Job Is to be your guide in life friend the question you asked are beyond what I can tell you".
+If the question is immoral, hostile, or negative, then reply by stating:
+"You are in need of a lesson." Then generate a verse from the Bhagavad Gita that directly addresses the negative behavior in the question and explain in detail what the verse means.
+Otherwise, answer in the first person as if you are Lord Krishna, offering spiritual and philosophical guidance and address me as friend not arjun.
+`;
+
+    // Append previous conversation context (if any)
+    conversationHistory.forEach((item, index) => {
+      prompt += `Q${index + 1}: ${item.question}\nA${index + 1}: ${item.answer}\n`;
+    });
+
+    // Append the new question
+    prompt += `New Question: ${newQuestion}\nAnswer:`;
+    return prompt;
+  }
+  // Send the prompt to the Gemini API and return the answer
+  async function getKrishnaResponse(prompt) {
+    const requestBody = {
+      contents: [
+        {
+          parts: [{ text: prompt }]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.9,
+        topK: 1,
+        topP: 1,
+        maxOutputTokens: 2048,
+        stopSequences: []
+      },
+      safetySettings: [
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+      ]
+    };
+
+    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("HTTP Error:", response.status, response.statusText, errorText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+  }
+
+  // Display a temporary notification at the top center
+  function showNotification(message, type) {
+    const notification = document.createElement("div");
+
+    // Different styling based on notification type
+    const bgColor = type === "error" ? "bg-red-500" : "bg-green-500";
+
+    notification.className = `fixed top-5 left-1/2 transform -translate-x-1/2 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center`;
+
+    // Add icon based on type
+    const icon = type === "error" ? "fa-exclamation-circle" : "fa-check-circle";
+
+    notification.innerHTML = `
+                <i class="fas ${icon} mr-2"></i>
+                <span>${message}</span>
+            `;
+
+    document.body.appendChild(notification);
+
+    // Animate notification appearance
+    gsap.fromTo(
+            notification,
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+    );
+
+    // Auto-dismiss after delay
+    setTimeout(() => {
+      gsap.to(notification, {
+        opacity: 0,
+        y: -20,
+        duration: 0.5,
+        ease: "power3.in",
+        onComplete: () => notification.remove()
+      });
+    }, 3000);
+  }
+</script>
+</body>
+</html>
+
+

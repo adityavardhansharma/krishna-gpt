@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahabharat Tales - Divine Epics</title>
+  <!-- Tailwind CSS CDN -->
+  <link
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+          rel="stylesheet"
+  />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Spectral:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+  />
+  <!-- Marked.js for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- GSAP for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <!-- Font Awesome -->
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f4e8;
+      background-image: url('https://www.transparenttextures.com/patterns/rice-paper-3.png');
+    }
+    .font-spectral {
+      font-family: 'Spectral', serif;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(128, 0, 128, 0.15));
+    }
+    .divine-border {
+      border-image: linear-gradient(45deg, #ffd700, #9c27b0) 1;
+      border-width: 2px;
+      border-style: solid;
+    }
+    .lotus-bg {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIiBmaWxsPSJub25lIj48cGF0aCBkPSJNMjUgNUMyNSA1IDEwIDEyLjUgMTAgMjVDMTAgMzcuNSAyNSA0NSAyNSA0NUMyNSA0NSA0MCAzNy41IDQwIDI1QzQwIDEyLjUgMjUgNSAyNSA1WiIgc3Ryb2tlPSIjOWMyN2IwIiBzdHJva2Utd2lkdGg9IjAuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==');
+      background-repeat: repeat;
+      background-size: 100px 100px;
+    }
+    .peacock-feather {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSI3MCIgZmlsbD0iIzFhMjM3ZSIgZmlsbC1vcGFjaXR5PSIwLjEiLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNTAiIHI9IjUwIiBmaWxsPSIjMDA3MmJiIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE1MCIgcj0iMzAiIGZpbGw9IiMwMGE4ZTgiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSIxMCIgZmlsbD0iIzQ2YmRlNiIgZmlsbC1vcGFjaXR5PSIwLjIiLz48L3N2Zz4=');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.5;
+      z-index: -1;
+    }
+    .om-symbol {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTUwIDIwQzM2LjE5MiAyMCAyNSAzMS4xOTIgMjUgNDVDMjUgNTguODA4IDM2LjE5MiA3MCA1MCA3MEM2My44MDggNzAgNzUgNTguODA4IDc1IDQ1Qzc1IDMxLjE5MiA2My44MDggMjAgNTAgMjBaTTUwIDI1QzYxLjA0NiAyNSA3MCAzMy45NTQgNzAgNDVDNzAgNTYuMDQ2IDYxLjA0NiA2NSA1MCA2NUMzOC45NTQgNjUgMzAgNTYuMDQ2IDMwIDQ1QzMwIDMzLjk1NCAzOC45NTQgMjUgNTAgMjVaIiBmaWxsPSIjOWMyN2IwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjxwYXRoIGQ9Ik01MCA3NVY4NUg2NVY3NUg1MFoiIGZpbGw9IiM5YzI3YjAiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PHBhdGggZD0iTTQwIDQ1QzQwIDQwLjAyOSA0NC4wMjkgMzYgNDkgMzZDNTMuOTcxIDM2IDU4IDQwLjAyOSA1OCA0NUM1OCA0OS45NzEgNTMuOTcxIDU0IDQ5IDU0QzQ0LjAyOSA1NCA0MCA0OS45NzEgNDAgNDVaIiBmaWxsPSIjOWMyN2IwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.2;
+      z-index: -1;
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background: linear-gradient(90deg, #ffd700, #9c27b0);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .btn-divine {
+      background: linear-gradient(135deg, #9c27b0, #673ab7);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+    }
+    .btn-divine:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(156, 39, 176, 0.4);
+    }
+    .story-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      transition: all 0.3s ease;
+    }
+    .story-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(31, 38, 135, 0.2);
+    }
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #9c27b0;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .flute-divider {
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #ffd700, #9c27b0, transparent);
+      border-radius: 2px;
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+<!-- Decorative Elements -->
+<div class="peacock-feather top-0 right-0 hidden md:block"></div>
+<div class="peacock-feather bottom-0 left-0 hidden md:block"></div>
+<div class="om-symbol top-20 left-10 hidden lg:block"></div>
+<div class="om-symbol bottom-20 right-10 hidden lg:block"></div>
+
+<!-- Navigation -->
+<nav class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3">
+    <div class="flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-3">
+        <span class="text-3xl text-purple-700"><i class="fas fa-om"></i></span>
+        <span class="font-spectral font-bold text-2xl text-purple-900">Krishna GPT</span>
+      </a>
+      <div class="hidden md:flex space-x-8">
+        <a href="index.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Home</a>
+        <a href="converse.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Divine Conversation</a>
+        <a href="mahabharat.html" class="nav-link text-purple-900 hover:text-purple-700 font-medium">Mahabharat Tales</a>
+        <a href="#" class="nav-link text-purple-900 hover:text-purple-700 font-medium">About</a>
+      </div>
+      <div class="md:hidden">
+        <button id="menuBtn" class="text-purple-900 focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="md:hidden hidden bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex flex-col space-y-4">
+        <a href="index.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Home</a>
+        <a href="converse.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Divine Conversation</a>
+        <a href="mahabharat.html" class="text-purple-900 hover:text-purple-700 font-medium py-2">Mahabharat Tales</a>
+        <a href="#" class="text-purple-900 hover:text-purple-700 font-medium py-2">About</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative py-16 hero-gradient">
+  <div class="lotus-bg absolute inset-0 opacity-10"></div>
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="font-spectral text-4xl md:text-5xl font-bold text-purple-900 mb-4" id="heroTitle">
+      Mahabharat Tales
+    </h1>
+    <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-6" id="heroText">
+      Discover a vivid, self-contained episode from the epic Mahabharata, brimming with valor, wisdom, and divine lessons.
+    </p>
+    <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-yellow-500 mx-auto"></div>
+  </div>
+</section>
+
+<!-- Story Content -->
+<main class="container mx-auto px-4 py-8">
+  <div id="storyContainer" class="story-card p-8 shadow-lg max-w-3xl mx-auto">
+    <!-- Loader while fetching the story -->
+    <div id="storyLoader" class="flex justify-center items-center py-8">
+      <span class="loader"></span>
+    </div>
+    <!-- Story content will appear here -->
+    <div id="storyContent" class="mt-4 hidden prose prose-lg text-gray-800"></div>
+  </div>
+  <div class="text-center mt-8">
+    <button
+            id="newStoryButton"
+            class="btn-divine text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none"
+    >
+      <i class="fas fa-book-open mr-2"></i> Get New Story
+    </button>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12 mt-16">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-6 md:mb-0">
+        <div class="flex items-center space-x-3 mb-4">
+          <span class="text-3xl text-purple-400"><i class="fas fa-om"></i></span>
+          <span class="font-spectral font-bold text-2xl">Krishna GPT</span>
+        </div>
+        <p class="text-gray-400 max-w-md">
+          A divine AI companion offering wisdom and epic tales from the Mahabharata and the Bhagavad Gita.
+        </p>
+      </div>
+      <div class="flex flex-col space-y-2">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a>
+        <a href="converse.html" class="text-gray-300 hover:text-white transition-colors">Divine Conversation</a>
+        <a href="mahabharat.html" class="text-gray-300 hover:text-white transition-colors">Mahabharat Tales</a>
+        <a href="#" class="text-gray-300 hover:text-white transition-colors">About</a>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+      <p>&copy; 2023 Krishna GPT. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // API details for story generation
+  const API_KEY = 'AIzaSyBKVfbX59dV0F0UlGOW0k1b299PJqNez3Q';
+  const API_URL =
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent';
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const newStoryButton = document.getElementById("newStoryButton");
+
+    newStoryButton.addEventListener("mouseenter", () => {
+      gsap.to(newStoryButton, {
+        scale: 1.05,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    });
+    newStoryButton.addEventListener("mouseleave", () => {
+      gsap.to(newStoryButton, {
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    });
+    newStoryButton.addEventListener("click", fetchMahabharatStory);
+
+    // Auto-fetch a story when the page loads.
+    fetchMahabharatStory();
+  });
+
+  // Function to fetch a detailed Mahabharata story
+  async function fetchMahabharatStory() {
+    const storyLoader = document.getElementById("storyLoader");
+    const storyContent = document.getElementById("storyContent");
+
+    // Show loader, hide content
+    storyLoader.classList.remove("hidden");
+    storyContent.classList.add("hidden");
+    storyContent.innerHTML = "";
+
+    // Build a prompt for a detailed & self-contained Mahabharata episode
+    const prompt = `You are Lord Krishna, divine guide from the Mahabharata and Bhagavad Gita.
+Narrate a complete, self-contained, and detailed episode from the Mahabharata. The story should capture the essence of the epic with vivid descriptions, interesting characters, and a meaningful lesson.
+Use clear sections and Markdown formatting with headers, bullet points, or emphasis. Speak to me as "friend" in a compassionate tone.
+Story:`;
+
+    try {
+      const responseText = await getStoryResponse(prompt);
+      // Hide loader and display story content
+      storyLoader.classList.add("hidden");
+      storyContent.innerHTML = marked.parse(responseText);
+      storyContent.classList.remove("hidden");
+
+      gsap.fromTo(
+              storyContent,
+              { opacity: 0, y: 20 },
+              { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
+      );
+    } catch (error) {
+      storyLoader.classList.add("hidden");
+      showNotification("An error occurred while fetching the story. Please try again.", "error");
+      console.error("Error fetching story:", error);
+    }
+  }
+
+  // Function to get a story response from the Gemini API
+  async function getStoryResponse(prompt) {
+    const requestBody = {
+      contents: [
+        {
+          parts: [{ text: prompt }]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.9,
+        topK: 1,
+        topP: 1,
+        maxOutputTokens: 2048,
+        stopSequences: []
+      },
+      safetySettings: [
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+      ]
+    };
+
+    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("HTTP Error:", response.status, response.statusText, errorText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+  }
+
+  // Utility function to display a temporary notification
+  function showNotification(message, type) {
+    const notification = document.createElement("div");
+    const bgColor = type === "error" ? "bg-red-500" : "bg-green-500";
+    notification.className = `fixed top-5 left-1/2 transform -translate-x-1/2 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center`;
+    const icon = type === "error" ? "fa-exclamation-circle" : "fa-check-circle";
+    notification.innerHTML = `
+        <i class="fas ${icon} mr-2"></i>
+        <span>${message}</span>
+      `;
+    document.body.appendChild(notification);
+    gsap.fromTo(
+            notification,
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+    );
+    setTimeout(() => {
+      gsap.to(notification, {
+        opacity: 0,
+        y: -20,
+        duration: 0.5,
+        ease: "power3.in",
+        onComplete: () => notification.remove()
+      });
+    }, 3000);
+  }
+</script>
+</body>
+</html>
