@@ -425,8 +425,8 @@
     });
 
     // API details for quote generation
-    const API_KEY = '';
-    const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-002:generateContent';
+    const API_KEY = 'YOUR_CEREBRAS_API_KEY_HERE';
+    const API_URL = 'https://api.cerebras.ai/v1/chat/completions';
 
     // Function to show notifications
     function showNotification(message, type) {
@@ -466,20 +466,14 @@
         quoteContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         // Build a prompt specifically for a quote request
-        const prompt = `You are Lord Krishna. Provide a thoughtful, inspiring quote from the Bhagavad Gita that offers guidance for life. Format it as a beautiful quote without attribution or explanation. Keep it concise (under 50 words) and profound.`;
+        const prompt = `Give a truly random quote (shloka or teaching) from anywhere in the Bhagavad Gita. Only output the quote in English translation and the verse number. Do NOT explain, do NOT show your reasoning, do NOT add any commentary. Only the quote and verse number, nothing else.`;
 
         try {
             const responseText = await getQuoteResponse(prompt);
 
-            // Clean the response to get just the quote
-            let cleanedQuote = responseText.replace(/^["']|["']$/g, '').trim();
-
-            // Remove any attribution if present
-            cleanedQuote = cleanedQuote.replace(/- Lord Krishna$|— Lord Krishna$|~Lord Krishna$/, '').trim();
-
             // Hide loader and show quote with animation
             quoteLoader.classList.add("hidden");
-            quoteDisplay.querySelector('.font-spectral').innerHTML = cleanedQuote;
+            quoteDisplay.querySelector('.font-spectral').innerHTML = responseText;
             quoteDisplay.classList.remove("hidden");
 
             gsap.fromTo(
@@ -508,32 +502,32 @@
         }
     }
 
-    // Function that sends a prompt to the Gemini API for a quote
+    // Function that sends a prompt to the Cerebras API for a quote
     async function getQuoteResponse(prompt) {
         const requestBody = {
-            contents: [
+            model: "qwen-3-32b",
+            stream: false,
+            max_tokens: 256,
+            temperature: 0.9,
+            top_p: 1,
+            messages: [
                 {
-                    parts: [{ text: prompt }]
+                    role: "system",
+                    content: "You are Lord Krishna. When asked, only output a truly random quote (shloka or teaching) from anywhere in the Bhagavad Gita, in English translation, and the verse number. Do NOT explain, do NOT show your reasoning, do NOT add any commentary. Only the quote and verse number, nothing else. /no_think"
+                },
+                {
+                    role: "user",
+                    content: prompt
                 }
-            ],
-            generationConfig: {
-                temperature: 0.9,
-                topK: 1,
-                topP: 1,
-                maxOutputTokens: 256,
-                stopSequences: []
-            },
-            safetySettings: [
-                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
             ]
         };
 
-        const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+        const response = await fetch(API_URL, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            },
             body: JSON.stringify(requestBody)
         });
 
@@ -544,7 +538,8 @@
         }
 
         const data = await response.json();
-        return data.candidates[0].content.parts[0].text;
+        // Cerebras returns { choices: [ { message: { content: ... } } ] }
+        return data.choices[0].message.content;
     }
 
     // Add event listeners for quote buttons

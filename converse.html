@@ -286,8 +286,8 @@
 
 <script>
   // API details
-  const API_KEY = '';
-  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-thinking-exp-01-21:generateContent';
+  const API_KEY = 'YOUR_CEREBRAS_API_KEY_HERE';
+  const API_URL = 'https://api.cerebras.ai/v1/chat/completions';
 
   // Global conversation history in memory
   let conversationHistory = [];
@@ -392,10 +392,10 @@
     userInput.value = "";
 
     // Build context prompt
-    const contextPrompt = buildContextPrompt(question);
+    const messages = buildMessagesArray(question);
 
     try {
-      const answer = await getKrishnaResponse(contextPrompt);
+      const answer = await getKrishnaResponse(question);
 
       // Replace loader with actual response
       const finalKrishnaMessage = createMessageElement(answer, "krishna");
@@ -503,51 +503,37 @@
   }
 
   // Build a context prompt using previous conversation and the new question
-  function buildContextPrompt(newQuestion) {
-    let prompt = `You are Lord Krishna, divine guide from the Bhagavad Gita and Mahabharata.
-Your task is to answer questions specifically about Hindu philosophy, Sanatan Dharma, the Mahabharata, and the teachings of the Bhagavad Gita.
-If the question is not related, reply with:
-"My Job Is to be your guide in life friend the question you asked are beyond what I can tell you".
-If the question is immoral, hostile, or negative, then reply by stating:
-"You are in need of a lesson." Then generate a verse from the Bhagavad Gita that directly addresses the negative behavior in the question and explain in detail what the verse means.
-Otherwise, answer in the first person as if you are Lord Krishna, offering spiritual and philosophical guidance and address me as friend not arjun.
-`;
-
-    // Append previous conversation context (if any)
-    conversationHistory.forEach((item, index) => {
-      prompt += `Q${index + 1}: ${item.question}\nA${index + 1}: ${item.answer}\n`;
+  function buildMessagesArray(newQuestion) {
+    // System prompt as per user request
+    const systemPrompt = `You are Lord Krishna, divine guide from the Bhagavad Gita and Mahabharata. Your task is to truly understand the user's problem and give a practical, actionable solution and a path forward. If a shloka from the Gita is relevant, provide it and explain how it helps with the user's problem. Only give shlokas that are truly relevant to the situation. Do not give random or irrelevant Gita quotes. If the question is not related to Hindu philosophy, Sanatan Dharma, the Mahabharata, or the teachings of the Bhagavad Gita, reply: 'My job is to be your guide in life, friend. The question you asked is beyond what I can tell you.' If the question is immoral, hostile, or negative, reply: 'You are in need of a lesson.' Then generate a verse from the Bhagavad Gita that directly addresses the negative behavior and explain in detail what the verse means. Otherwise, answer in the first person as if you are Lord Krishna, offering spiritual and philosophical guidance and address the user as 'friend', not Arjun. Your solution should be one that actually works, not just random things from the Gita that don't make sense in the situation.`;
+    const messages = [
+      { role: "system", content: systemPrompt }
+    ];
+    conversationHistory.forEach((item) => {
+      messages.push({ role: "user", content: item.question });
+      messages.push({ role: "assistant", content: item.answer });
     });
-
-    // Append the new question
-    prompt += `New Question: ${newQuestion}\nAnswer:`;
-    return prompt;
+    messages.push({ role: "user", content: newQuestion });
+    return messages;
   }
-  // Send the prompt to the Gemini API and return the answer
-  async function getKrishnaResponse(prompt) {
+
+  // Send the prompt to the Cerebras API and return the answer
+  async function getKrishnaResponse(newQuestion) {
     const requestBody = {
-      contents: [
-        {
-          parts: [{ text: prompt }]
-        }
-      ],
-      generationConfig: {
-        temperature: 0.9,
-        topK: 1,
-        topP: 1,
-        maxOutputTokens: 2048,
-        stopSequences: []
-      },
-      safetySettings: [
-        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-      ]
+      model: "llama-4-scout-17b-16e-instruct",
+      stream: false,
+      max_tokens: 6000,
+      temperature: 0.61,
+      top_p: 1,
+      messages: buildMessagesArray(newQuestion)
     };
 
-    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+    const response = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`
+      },
       body: JSON.stringify(requestBody)
     });
 
@@ -558,7 +544,8 @@ Otherwise, answer in the first person as if you are Lord Krishna, offering spiri
     }
 
     const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
+    // Cerebras returns { choices: [ { message: { content: ... } } ] }
+    return data.choices[0].message.content;
   }
 
   // Display a temporary notification at the top center

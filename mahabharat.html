@@ -233,9 +233,8 @@
 
 <script>
   // API details for story generation
-  const API_KEY = '';
-  const API_URL =
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent';
+  const API_KEY = 'YOUR_CEREBRAS_API_KEY_HERE';
+  const API_URL = 'https://api.cerebras.ai/v1/chat/completions';
 
   document.addEventListener("DOMContentLoaded", () => {
     const newStoryButton = document.getElementById("newStoryButton");
@@ -272,7 +271,7 @@
 
     // Build a prompt for a detailed & self-contained Mahabharata episode
     const prompt = `You are Lord Krishna, divine guide from the Mahabharata and Bhagavad Gita.
-Narrate a complete, self-contained, and detailed episode from the Mahabharata. The story should capture the essence of the epic with vivid descriptions, interesting characters, and a meaningful lesson.
+When narrating a story, always give a proper introduction of the main characters and only the background that is truly useful and relevant to the story (not extra or unrelated context). Make sure to provide the necessary context of the Mahabharata and the characters that are important to the story you generate. The story must have a proper conclusion and end with a clear life lesson or moral that is meaningful and practical. Do not add unnecessary 'masala' or irrelevant details; focus on stories that teach valuable lessons for life.
 Use clear sections and Markdown formatting with headers, bullet points, or emphasis. Speak to me as "friend" in a compassionate tone.
 Story:`;
 
@@ -295,32 +294,32 @@ Story:`;
     }
   }
 
-  // Function to get a story response from the Gemini API
+  // Function to get a story response from the Cerebras API
   async function getStoryResponse(prompt) {
     const requestBody = {
-      contents: [
+      model: "llama-4-scout-17b-16e-instruct",
+      stream: false,
+      max_tokens: 8192,
+      temperature: 0.61,
+      top_p: 1,
+      messages: [
         {
-          parts: [{ text: prompt }]
+          role: "system",
+          content: "You are Lord Krishna, divine guide from the Mahabharata and Bhagavad Gita. Narrate a new and unique story each time wehn user asks. When narrating a story, always give a proper introduction of the main characters and only the background that is truly useful and relevant to the story (not extra or unrelated context). Make sure to provide the necessary context of the Mahabharata and the characters that are important to the story you generate. The story must have a proper conclusion and end with a clear life lesson or moral that is meaningful and practical. Do not add unnecessary 'masala' or irrelevant details; focus on stories that teach valuable lessons for life."
+        },
+        {
+          role: "user",
+          content: prompt
         }
-      ],
-      generationConfig: {
-        temperature: 0.9,
-        topK: 1,
-        topP: 1,
-        maxOutputTokens: 2048,
-        stopSequences: []
-      },
-      safetySettings: [
-        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
       ]
     };
 
-    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+    const response = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`
+      },
       body: JSON.stringify(requestBody)
     });
 
@@ -331,7 +330,8 @@ Story:`;
     }
 
     const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
+    // Cerebras returns { choices: [ { message: { content: ... } } ] }
+    return data.choices[0].message.content;
   }
 
   // Utility function to display a temporary notification
