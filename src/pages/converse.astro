@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ChatInterface from '../components/ChatInterface.tsx';
+---
+
+<Layout title="Divine Conversation - Krishna GPT">
+  <div class="h-[100dvh] w-full flex flex-col">
+    <ChatInterface client:only="react" />
+  </div>
+</Layout>

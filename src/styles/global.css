@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,200;6..72,300;6..72,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-ios-bg: #000000;
+  --color-ios-text: #F2F2F7;
+}
+
+@layer base {
+  body {
+    @apply bg-ios-bg text-ios-text antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    letter-spacing: -0.015em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+  }
+
+  .font-serif {
+    font-family: 'Newsreader', serif;
+  }
+}
+
+/* Ambient Background Animation */
+.ambient-bg {
+  position: fixed;
+  inset: -50%;
+  z-index: -2;
+  background-color: #050505;
+  pointer-events: none;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+  animation: float 30s infinite alternate ease-in-out;
+  will-change: transform;
+}
+
+/* Deeper, more spiritual colors */
+.orb-1 { width: 65vw; height: 65vw; background: #3B0086; top: 0%; left: 10%; animation-delay: 0s; }
+.orb-2 { width: 55vw; height: 55vw; background: #FF5E00; bottom: -10%; right: -5%; opacity: 0.25; animation-delay: -5s; }
+.orb-3 { width: 75vw; height: 75vw; background: #0077FF; top: 40%; left: 40%; opacity: 0.3; animation-delay: -10s; }
+.orb-4 { width: 40vw; height: 40vw; background: #FFB800; top: 70%; left: 10%; opacity: 0.2; animation-delay: -15s; }
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(15%, 20%) scale(1.05); }
+  66% { transform: translate(-10%, 10%) scale(0.95); }
+  100% { transform: translate(10%, -20%) scale(1.02); }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+::-webkit-scrollbar { display: none; }
+* { -ms-overflow-style: none; scrollbar-width: none; }
