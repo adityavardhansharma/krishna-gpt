@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import LiquidNav from '../components/LiquidNav.tsx';
+import { ClientRouter, fade } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Divine Wisdom Through The Ages" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="bg-black text-white selection:bg-white/30 selection:text-white min-h-screen">
+    <!-- Ambient Moving Background -->
+    <div class="ambient-bg" transition:persist>
+      <div class="ambient-orb orb-1"></div>
+      <div class="ambient-orb orb-2"></div>
+      <div class="ambient-orb orb-3"></div>
+      <div class="ambient-orb orb-4"></div>
+    </div>
+
+    <!-- Screen content -->
+    <main class="relative w-full min-h-screen" transition:animate={fade({ duration: '0.4s' })}>
+      <slot />
+    </main>
+
+    <!-- Bottom tab bar -->
+    <div transition:persist class="relative z-50">
+      <LiquidNav client:load />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StoryDisplay from '../components/StoryDisplay.tsx';
+---
+
+<Layout title="Tales of the Mahabharat - Krishna GPT">
+  <div class="flex flex-col" style="height: 100dvh; max-width: 640px; margin: 0 auto; padding: 0 20px 96px;">
+
+    <div class="pt-12 pb-4 text-center flex-shrink-0">
+      <p class="text-white/25 text-[11px] font-bold tracking-[0.25em] uppercase mb-2">The Great Epic</p>
+      <h1 class="text-2xl font-serif text-white tracking-tight">Mahabharat Tales</h1>
+    </div>
+
+    <div class="flex-1 min-h-0">
+      <StoryDisplay client:load />
+    </div>
+
+  </div>
+</Layout>
