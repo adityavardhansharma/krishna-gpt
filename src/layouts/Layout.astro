@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import LiquidNav from '../components/LiquidNav.tsx';
+import ThemeSwitcher from '../components/ThemeSwitcher.tsx';
 import { ClientRouter, fade } from 'astro:transitions';
 
 interface Props {
@@ -31,12 +32,18 @@ const { title, description = "Divine Wisdom Through The Ages" } = Astro.props;
       <div class="ambient-orb orb-2"></div>
       <div class="ambient-orb orb-3"></div>
       <div class="ambient-orb orb-4"></div>
+      <div class="ambient-grain" aria-hidden="true"></div>
     </div>
 
     <!-- Screen content -->
     <main class="relative w-full min-h-screen" transition:animate={fade({ duration: '0.4s' })}>
       <slot />
     </main>
+
+    <!-- Theme switcher -->
+    <div transition:persist="theme-switcher" class="relative z-50">
+      <ThemeSwitcher client:load />
+    </div>
 
     <!-- Bottom tab bar -->
     <div transition:persist class="relative z-50">

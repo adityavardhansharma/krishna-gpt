@@ -22,7 +22,7 @@ export default function HomeHero() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "80px 20px 100px",
+        padding: "80px 24px 120px",
       }}
     >
       <div
@@ -30,14 +30,13 @@ export default function HomeHero() {
           width: "100%",
           maxWidth: 1100,
           display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: 48,
+          gap: 64,
           alignItems: "center",
         }}
         className="hero-grid"
       >
         {/* Left — copy */}
-        <div style={{ textAlign: "center" }} className="hero-text">
+        <div className="hero-text" style={{ order: 1 }}>
           <p
             style={{
               fontSize: 11,
@@ -53,7 +52,7 @@ export default function HomeHero() {
 
           <h1
             style={{
-              fontSize: "clamp(40px, 7vw, 72px)",
+              fontSize: "clamp(36px, 5vw, 64px)",
               fontFamily: "'Newsreader', serif",
               fontWeight: 300,
               color: "white",
@@ -74,17 +73,16 @@ export default function HomeHero() {
               fontSize: 17,
               color: "rgba(255,255,255,0.4)",
               lineHeight: 1.6,
-              maxWidth: 480,
-              margin: "0 auto 32px",
+              maxWidth: 440,
+              margin: "0 0 32px",
             }}
-            className="hero-desc"
           >
             Converse with Krishna — an AI rooted in the Bhagavad Gita.
             Ask about purpose, struggle, relationships, and dharma.
             Get real answers, not platitudes.
           </p>
 
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }} className="hero-ctas">
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <a href="/converse" style={{ textDecoration: "none" }}>
               <LiquidGlass radius={50} scale={-20} blur={20} tint="rgba(10,132,255,0.15)">
                 <div style={{ padding: "14px 36px", display: "flex", alignItems: "center", gap: 8 }}>
@@ -106,8 +104,8 @@ export default function HomeHero() {
         </div>
 
         {/* Right — chat mockup */}
-        <div style={{ display: "flex", justifyContent: "center" }} className="hero-preview">
-          <div style={{ width: "100%", maxWidth: 420 }}>
+        <div style={{ display: "flex", justifyContent: "center" }} className="hero-preview" >
+          <div style={{ width: "100%", maxWidth: 400 }}>
             <LiquidGlass radius={24} scale={-30} blur={18} tint="rgba(255,255,255,0.02)">
               <div style={{ padding: "20px 16px", display: "flex", flexDirection: "column", gap: 12, minHeight: 200 }}>
                 <div style={{ textAlign: "center", paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
@@ -160,6 +158,40 @@ export default function HomeHero() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-text {
+          text-align: center;
+        }
+        .hero-text p:last-of-type {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .hero-text > div:last-child {
+          justify-content: center;
+        }
+        @media (min-width: 768px) {
+          .hero-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+          .hero-text {
+            text-align: left;
+          }
+          .hero-text p:last-of-type {
+            margin-left: 0;
+            margin-right: 0;
+          }
+          .hero-text > div:last-child {
+            justify-content: flex-start;
+          }
+          .hero-preview {
+            order: 2;
+          }
+        }
+      `}</style>
     </section>
   );
 }
