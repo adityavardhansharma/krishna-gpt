@@ -1,5 +1,8 @@
 import type { APIRoute } from "astro";
-import { OpenRouter } from "@openrouter/sdk";
+import {
+  createOpenRouterClient,
+  getRequiredEnv,
+} from "../../lib/openrouter";
 
 const systemPrompt = `You are Lord Krishna, the divine guide from the Bhagavad Gita and Mahabharata.
 
@@ -18,18 +21,24 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const { messages } = await request.json();
 
-    const openrouter = new OpenRouter({
-      apiKey: import.meta.env.OPENROUTER_API_KEY,
-    });
+    const openrouter = createOpenRouterClient();
 
     const result = await openrouter.chat.send({
-      model: import.meta.env.PUBLIC_CHAT_MODEL,
-      messages: [{ role: "system", content: systemPrompt }, ...messages],
+      chatRequest: {
+        model: getRequiredEnv("PUBLIC_CHAT_MODEL"),
+        messages: [{ role: "system", content: systemPrompt }, ...messages],
+      },
     });
 
     const reply = result.choices?.[0]?.message?.content;
-    return new Response(JSON.stringify({ reply }), { status: 200 });
+    return new Response(JSON.stringify({ reply }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
