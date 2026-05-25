@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, useId, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo, useId } from "react";
 
 const navItems = [
   { path: "/", label: "Home", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1" },
@@ -36,6 +36,7 @@ export default function LiquidNav() {
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [dims, setDims] = useState({ w: 280, h: 56 });
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const [isChrome, setIsChrome] = useState(false);
   const id = useId();
   const filterId = `nav-lg-${id.replace(/:/g, "")}`;
 
@@ -81,8 +82,11 @@ export default function LiquidNav() {
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    setIsChrome(supportsBackdropSvgFilter());
+  }, []);
+
   const mapHref = useMemo(() => buildNavMapUri(dims.w, dims.h, 28), [dims.w, dims.h]);
-  const isChrome = useMemo(() => supportsBackdropSvgFilter(), []);
 
   const backdropValue = isChrome
     ? `blur(40px) url(#${filterId}) brightness(1.15) saturate(1.8)`
